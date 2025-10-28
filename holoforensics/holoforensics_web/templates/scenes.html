@@ -1,0 +1,1114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forensic Scenes - HoloForensics</title>
+    <link rel="stylesheet" href="{% static 'css/scenes.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-cube"></i>
+                <span>HoloForensics</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="/" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#services" class="nav-link">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/" class="nav-link">Admin</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" class="nav-link">Contact</a>
+                </li>
+            </ul>
+            {% if user.is_authenticated %}
+                <div class="nav-auth">
+                    <a href="/scenes/" class="get-started-btn">Get Started</a>
+                    <a href="/logout/" class="logout-btn">Logout</a>
+                </div>
+            {% else %}
+                <a href="/login/" class="get-started-btn">Login</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="scenes-container">
+        <!-- Header Section -->
+        <div class="scenes-header">
+            <h1>Forensic Scenes</h1>
+        </div>
+
+        <!-- Welcome Card -->
+        <div class="welcome-card">
+            <h2>Welcome to HoloForensics</h2>
+            <p>Advanced 3D forensic analysis workspace. Create and manage your forensic investigation scenes.</p>
+            <div class="action-buttons">
+                <button class="btn-primary" onclick="createNewScene()">
+                    <i class="fas fa-plus"></i>
+                    Create New Scene
+                </button>
+                <a href="/analysis/" class="btn-secondary">Dashboard</a>
+            </div>
+        </div>
+
+        <!-- Scene Cards Grid -->
+        <div class="scenes-grid">
+            <!-- Sample Crime Scene -->
+            <div class="scene-card">
+                <div class="scene-icon">
+                    <i class="fas fa-camera"></i>
+                </div>
+                <div class="scene-content">
+                    <h3>Sample Crime Scene</h3>
+                    <p>Multi-camera analysis of indoor incident with 4 camera angles and object tracking.</p>
+                    <div class="scene-status">
+                        <span class="status completed">Status: Completed</span>
+                    </div>
+                    <button class="scene-btn" onclick="viewScene('sample')">
+                        <i class="fas fa-eye"></i>
+                        View Details
+                    </button>
+                    <button class="scene-btn" onclick="open3DViewer('sample')">
+                        <i class="fas fa-cube"></i>
+                        3D Viewer
+                    </button>
+                </div>
+            </div>
+
+            <!-- Outdoor Investigation -->
+            <div class="scene-card">
+                <div class="scene-icon">
+                    <i class="fas fa-tree"></i>
+                </div>
+                <div class="scene-content">
+                    <h3>Outdoor Investigation</h3>
+                    <p>3D reconstruction of outdoor scene using COLMAP pipeline and AI detection.</p>
+                    <div class="scene-status">
+                        <span class="status processing">Status: Processing</span>
+                    </div>
+                    <button class="scene-btn" onclick="viewProgress('outdoor')">
+                        <i class="fas fa-chart-line"></i>
+                        View Progress
+                    </button>
+                </div>
+            </div>
+
+            <!-- Evidence Analysis -->
+            <div class="scene-card">
+                <div class="scene-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="scene-content">
+                    <h3>Evidence Analysis</h3>
+                    <p>Timeline analysis and behavioral pattern recognition for suspect identification.</p>
+                    <div class="scene-status">
+                        <span class="status ready">Status: Ready for Review</span>
+                    </div>
+                    <button class="scene-btn" onclick="openQA('evidence')">
+                        <i class="fas fa-question-circle"></i>
+                        Open Q&A
+                    </button>
+                    <button class="scene-btn inpainting-btn" onclick="openInpaintingModal('evidence')">
+                        <i class="fas fa-magic"></i>
+                        Video Inpainting
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Inpainting Modal -->
+    <div id="inpaintingModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeInpaintingModal()">&times;</span>
+            <h2><i class="fas fa-magic"></i> Video Inpainting Tool</h2>
+            
+            <!-- Step Indicator -->
+            <div class="step-indicator">
+                <div class="step active" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Scene Validation</div>
+                </div>
+                <div class="step" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Configuration</div>
+                </div>
+                <div class="step" data-step="3">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Processing</div>
+                </div>
+            </div>
+
+            <!-- Step 1: Scene Validation -->
+            <div id="step1" class="step-content active">
+                <h3>Scene Validation</h3>
+                <p>Select a scene to validate for video inpainting compatibility:</p>
+                
+                <div class="scene-selector">
+                    <select id="sceneSelect">
+                        <option value="">Select a scene...</option>
+                        <option value="scene_001">Scene 001 - Bank Robbery</option>
+                        <option value="scene_002">Scene 002 - Street Incident</option>
+                    </select>
+                </div>
+                
+                <div id="validationResults" class="validation-results" style="display: none;">
+                    <div class="validation-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Video format compatible</span>
+                    </div>
+                    <div class="validation-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Resolution supported</span>
+                    </div>
+                    <div class="validation-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Frame rate optimal</span>
+                    </div>
+                </div>
+                
+                <div class="step-actions">
+                    <button id="validateBtn" class="btn-primary" onclick="validateScene()" disabled>
+                        <i class="fas fa-search"></i> Validate Scene
+                    </button>
+                    <button id="nextStep1" class="btn-primary" onclick="nextStep(2)" disabled>
+                        Next <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2: Configuration -->
+            <div id="step2" class="step-content">
+                <h3>Inpainting Configuration</h3>
+                
+                <div class="config-section">
+                    <h4>Mask Configuration</h4>
+                    <div class="config-row">
+                        <label>Mask Type:</label>
+                        <select id="maskType">
+                            <option value="automatic">Automatic Detection</option>
+                            <option value="manual">Manual Selection</option>
+                            <option value="object_based">Object-Based</option>
+                        </select>
+                    </div>
+                    <div class="config-row">
+                        <label>Dilation Radius:</label>
+                        <input type="range" id="dilationRadius" min="0" max="20" value="5">
+                        <span id="dilationValue">5px</span>
+                    </div>
+                </div>
+                
+                <div class="config-section">
+                    <h4>Processing Parameters</h4>
+                    <div class="config-row">
+                        <label>Quality Level:</label>
+                        <select id="qualityLevel">
+                            <option value="fast">Fast (Lower Quality)</option>
+                            <option value="balanced" selected>Balanced</option>
+                            <option value="high">High Quality (Slower)</option>
+                        </select>
+                    </div>
+                    <div class="config-row">
+                        <label>Temporal Consistency:</label>
+                        <input type="checkbox" id="temporalConsistency" checked>
+                    </div>
+                </div>
+                
+                <div class="step-actions">
+                    <button class="btn-secondary" onclick="prevStep(1)">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <button class="btn-primary" onclick="nextStep(3)">
+                        Start Processing <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 3: Processing -->
+            <div id="step3" class="step-content">
+                <h3>Processing Video Inpainting</h3>
+                
+                <div class="progress-section">
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill"></div>
+                    </div>
+                    <div id="progressText" class="progress-text">Initializing...</div>
+                </div>
+                
+                <div class="processing-log">
+                    <h4>Processing Log</h4>
+                    <div id="logContent" class="log-content">
+                        <div class="log-entry">System initialized</div>
+                    </div>
+                </div>
+                
+                <div id="resultsSection" class="results-section" style="display: none;">
+                    <h4>Processing Complete</h4>
+                    <div class="result-files">
+                        <div class="file-item">
+                            <i class="fas fa-video"></i>
+                            <span>inpainted_video.mp4</span>
+                            <button class="btn-small">Download</button>
+                        </div>
+                        <div class="file-item">
+                            <i class="fas fa-file-alt"></i>
+                            <span>processing_report.json</span>
+                            <button class="btn-small">View</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step-actions">
+                    <button id="closeProcessing" class="btn-primary" onclick="closeInpaintingModal()" style="display: none;">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Physics Prediction Modal -->
+    <div id="physicsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePhysicsModal()">&times;</span>
+            <h2><i class="fas fa-route"></i> Physics-Informed Trajectory Prediction</h2>
+            
+            <!-- Step Indicator -->
+            <div class="step-indicator">
+                <div class="step active" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Data Input</div>
+                </div>
+                <div class="step" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Configuration</div>
+                </div>
+                <div class="step" data-step="3">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Prediction</div>
+                </div>
+            </div>
+
+            <!-- Step 1: Data Input -->
+            <div id="physicsStep1" class="step-content active">
+                <h3>Trajectory Data Input</h3>
+                <p>Upload or select trajectory data for physics-informed prediction:</p>
+                
+                <div class="data-input-section">
+                    <div class="input-method">
+                        <h4>Input Method</h4>
+                        <div class="method-selector">
+                            <label class="radio-option">
+                                <input type="radio" name="inputMethod" value="scene" checked>
+                                <span>From Scene Data</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="inputMethod" value="upload">
+                                <span>Upload Trajectory File</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="inputMethod" value="manual">
+                                <span>Manual Entry</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div id="sceneDataInput" class="input-panel">
+                        <div class="scene-selector">
+                            <label>Select Scene:</label>
+                            <select id="physicsSceneSelect">
+                                <option value="">Select a scene...</option>
+                                <option value="scene_001">Scene 001 - Bank Robbery</option>
+                                <option value="scene_002">Scene 002 - Street Incident</option>
+                            </select>
+                        </div>
+                        <div class="trajectory-list" id="trajectoryList" style="display: none;">
+                            <h5>Available Trajectories:</h5>
+                            <div class="trajectory-items"></div>
+                        </div>
+                    </div>
+                    
+                    <div id="uploadInput" class="input-panel" style="display: none;">
+                        <div class="upload-area">
+                            <i class="fas fa-upload"></i>
+                            <p>Drop trajectory file here or click to browse</p>
+                            <input type="file" id="trajectoryFile" accept=".json,.csv">
+                        </div>
+                    </div>
+                    
+                    <div id="manualInput" class="input-panel" style="display: none;">
+                        <div class="manual-entry">
+                            <h5>Manual Trajectory Entry</h5>
+                            <div class="trajectory-form">
+                                <div class="form-row">
+                                    <label>Object ID:</label>
+                                    <input type="text" id="objectId" placeholder="e.g., person_001">
+                                </div>
+                                <div class="form-row">
+                                    <label>Object Type:</label>
+                                    <select id="objectType">
+                                        <option value="person">Person</option>
+                                        <option value="vehicle">Vehicle</option>
+                                        <option value="object">Object</option>
+                                    </select>
+                                </div>
+                                <div class="trajectory-points">
+                                    <h6>Trajectory Points:</h6>
+                                    <div id="pointsList">
+                                        <!-- Points will be added dynamically -->
+                                    </div>
+                                    <button type="button" class="btn-small" onclick="addTrajectoryPoint()">
+                                        <i class="fas fa-plus"></i> Add Point
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="dataValidation" class="validation-results" style="display: none;">
+                    <h5>Data Validation Results:</h5>
+                    <div id="validationItems"></div>
+                </div>
+                
+                <div class="step-actions">
+                    <button id="validateTrajectoryBtn" class="btn-primary" onclick="validateTrajectoryData()" disabled>
+                        <i class="fas fa-check"></i> Validate Data
+                    </button>
+                    <button id="physicsNextStep1" class="btn-primary" onclick="nextPhysicsStep(2)" disabled>
+                        Next <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2: Configuration -->
+            <div id="physicsStep2" class="step-content">
+                <h3>Prediction Configuration</h3>
+                
+                <div class="config-section">
+                    <h4>Prediction Parameters</h4>
+                    <div class="config-row">
+                        <label>Prediction Horizon (frames):</label>
+                        <input type="number" id="predictionHorizon" value="60" min="10" max="300">
+                    </div>
+                    <div class="config-row">
+                        <label>Confidence Threshold:</label>
+                        <input type="range" id="confidenceThreshold" min="0.1" max="1.0" step="0.1" value="0.7">
+                        <span id="confidenceValue">0.7</span>
+                    </div>
+                    <div class="config-row">
+                        <label>Kalman Filter Weight:</label>
+                        <input type="range" id="kalmanWeight" min="0.0" max="1.0" step="0.1" value="0.6">
+                        <span id="kalmanWeightValue">0.6</span>
+                    </div>
+                </div>
+                
+                <div class="config-section">
+                    <h4>Physics Model Settings</h4>
+                    <div class="config-row">
+                        <label>Social Force Model:</label>
+                        <input type="checkbox" id="socialForceEnabled" checked>
+                    </div>
+                    <div class="config-row">
+                        <label>Obstacle Avoidance:</label>
+                        <input type="checkbox" id="obstacleAvoidance" checked>
+                    </div>
+                    <div class="config-row">
+                        <label>Scene Calibration:</label>
+                        <input type="checkbox" id="sceneCalibration" checked>
+                    </div>
+                </div>
+                
+                <div class="config-section">
+                    <h4>Forensic Options</h4>
+                    <div class="config-row">
+                        <label>Evidence Preservation:</label>
+                        <input type="checkbox" id="evidencePreservation" checked>
+                    </div>
+                    <div class="config-row">
+                        <label>Uncertainty Quantification:</label>
+                        <input type="checkbox" id="uncertaintyQuantification" checked>
+                    </div>
+                </div>
+                
+                <div class="step-actions">
+                    <button class="btn-secondary" onclick="prevPhysicsStep(1)">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <button class="btn-primary" onclick="nextPhysicsStep(3)">
+                        Start Prediction <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 3: Prediction Processing -->
+            <div id="physicsStep3" class="step-content">
+                <h3>Physics Prediction Processing</h3>
+                
+                <div class="progress-section">
+                    <div class="progress-bar">
+                        <div id="physicsProgressFill" class="progress-fill"></div>
+                    </div>
+                    <div id="physicsProgressText" class="progress-text">Initializing physics models...</div>
+                </div>
+                
+                <div class="processing-log">
+                    <h4>Processing Log</h4>
+                    <div id="physicsLogContent" class="log-content">
+                        <div class="log-entry">Physics prediction system initialized</div>
+                    </div>
+                </div>
+                
+                <div id="physicsResultsSection" class="results-section" style="display: none;">
+                    <h4>Prediction Complete</h4>
+                    <div class="prediction-summary">
+                        <div class="summary-item">
+                            <span class="label">Objects Predicted:</span>
+                            <span id="objectCount" class="value">-</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="label">Average Confidence:</span>
+                            <span id="avgConfidence" class="value">-</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="label">Prediction Method:</span>
+                            <span id="predictionMethod" class="value">-</span>
+                        </div>
+                    </div>
+                    
+                    <div class="result-files">
+                        <div class="file-item">
+                            <i class="fas fa-chart-line"></i>
+                            <span>trajectory_predictions.json</span>
+                            <button class="btn-small">Download</button>
+                        </div>
+                        <div class="file-item">
+                            <i class="fas fa-file-alt"></i>
+                            <span>forensic_report.json</span>
+                            <button class="btn-small">View</button>
+                        </div>
+                        <div class="file-item">
+                            <i class="fas fa-image"></i>
+                            <span>prediction_visualization.png</span>
+                            <button class="btn-small">View</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step-actions">
+                    <button id="closePhysicsProcessing" class="btn-primary" onclick="closePhysicsModal()" style="display: none;">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Scene Modal -->
+    <div id="createSceneModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create New Scene</h3>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="createSceneForm">
+                    <div class="form-group">
+                        <label for="sceneName">Scene Name</label>
+                        <input type="text" id="sceneName" name="sceneName" placeholder="Enter scene name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sceneType">Scene Type</label>
+                        <select id="sceneType" name="sceneType" required>
+                            <option value="">Select scene type</option>
+                            <option value="indoor">Indoor Crime Scene</option>
+                            <option value="outdoor">Outdoor Investigation</option>
+                            <option value="evidence">Evidence Analysis</option>
+                            <option value="timeline">Timeline Analysis</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea id="description" name="description" placeholder="Enter scene description" rows="3"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="closeModal()">Cancel</button>
+                        <button type="submit" class="btn-primary">Create Scene</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scene Analysis Modal -->
+    <div id="sceneAnalysisModal" class="modal">
+        <div class="modal-content scene-analysis-modal">
+            <div class="modal-header">
+                <h3>Scene Graph & Event Detection Analysis</h3>
+                <span class="close" onclick="closeSceneAnalysisModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <!-- Step Indicator -->
+                <div class="step-indicator">
+                    <div class="step active" data-step="1">
+                        <div class="step-number">1</div>
+                        <div class="step-label">Data Input</div>
+                    </div>
+                    <div class="step" data-step="2">
+                        <div class="step-number">2</div>
+                        <div class="step-label">Configuration</div>
+                    </div>
+                    <div class="step" data-step="3">
+                        <div class="step-number">3</div>
+                        <div class="step-label">Processing</div>
+                    </div>
+                    <div class="step" data-step="4">
+                        <div class="step-number">4</div>
+                        <div class="step-label">Results</div>
+                    </div>
+                </div>
+
+                <!-- Step 1: Data Input -->
+                <div class="step-content" id="sceneAnalysisStep1">
+                    <h4>Scene Data Input</h4>
+                    <p>Provide scene data for analysis. This can include object detection results, tracking data, or raw video frames.</p>
+                    
+                    <div class="input-method-selector">
+                        <label class="radio-option">
+                            <input type="radio" name="sceneInputMethod" value="upload" checked>
+                            <span class="radio-custom"></span>
+                            Upload Scene Data File
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="sceneInputMethod" value="manual">
+                            <span class="radio-custom"></span>
+                            Manual Data Entry
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="sceneInputMethod" value="existing">
+                            <span class="radio-custom"></span>
+                            Use Existing Scene Data
+                        </label>
+                    </div>
+
+                    <!-- Upload Panel -->
+                    <div class="input-panel" id="sceneUploadPanel">
+                        <div class="upload-area" onclick="document.getElementById('sceneDataFile').click()">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Click to upload scene data file</p>
+                            <small>Supported formats: JSON, CSV</small>
+                        </div>
+                        <input type="file" id="sceneDataFile" accept=".json,.csv" style="display: none;">
+                        <div class="file-info" id="sceneFileInfo" style="display: none;">
+                            <i class="fas fa-file-alt"></i>
+                            <span class="file-name"></span>
+                            <span class="file-size"></span>
+                        </div>
+                    </div>
+
+                    <!-- Manual Entry Panel -->
+                    <div class="input-panel" id="sceneManualPanel" style="display: none;">
+                        <div class="form-group">
+                            <label>Scene Data (JSON Format)</label>
+                            <textarea id="sceneDataManual" rows="10" placeholder='[
+  {
+    "frame_id": 1,
+    "timestamp": 0.0,
+    "camera_id": "cam_001",
+    "objects": [
+      {
+        "object_id": "person_001",
+        "object_type": "person",
+        "confidence": 0.95,
+        "bbox": [100, 100, 200, 300],
+        "center": [150, 200],
+        "area": 20000
+      }
+    ]
+  }
+]'></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Existing Scene Panel -->
+                    <div class="input-panel" id="sceneExistingPanel" style="display: none;">
+                        <div class="form-group">
+                            <label>Select Existing Scene</label>
+                            <select id="existingSceneSelect">
+                                <option value="">Choose a scene...</option>
+                                <option value="scene_001">Crime Scene 001 - Bank Robbery</option>
+                                <option value="scene_002">Traffic Incident 002</option>
+                                <option value="scene_003">Surveillance Analysis 003</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Validation Results -->
+                    <div class="validation-results" id="sceneValidationResults" style="display: none;">
+                        <div class="validation-header">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Data Validation Results</span>
+                        </div>
+                        <div class="validation-content">
+                            <div class="validation-stats">
+                                <div class="stat-item">
+                                    <span class="stat-label">Total Frames:</span>
+                                    <span class="stat-value" id="totalFrames">-</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Total Objects:</span>
+                                    <span class="stat-value" id="totalObjects">-</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Object Types:</span>
+                                    <span class="stat-value" id="objectTypes">-</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Time Range:</span>
+                                    <span class="stat-value" id="timeRange">-</span>
+                                </div>
+                            </div>
+                            <div class="validation-issues" id="validationIssues" style="display: none;">
+                                <h5>Issues Found:</h5>
+                                <ul id="issuesList"></ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-actions">
+                        <button class="btn-secondary" onclick="closeSceneAnalysisModal()">Cancel</button>
+                        <button class="btn-primary" id="validateSceneDataBtn" onclick="validateSceneData()">Validate Data</button>
+                        <button class="btn-primary" id="nextToConfigBtn" onclick="nextSceneAnalysisStep()" style="display: none;">Next: Configuration</button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Configuration -->
+                <div class="step-content" id="sceneAnalysisStep2" style="display: none;">
+                    <h4>Analysis Configuration</h4>
+                    <p>Configure the scene analysis parameters for optimal results.</p>
+
+                    <div class="config-grid">
+                        <div class="config-group">
+                            <label>Case ID</label>
+                            <input type="text" id="sceneAnalysisCaseId" placeholder="Enter case identifier" value="CASE_2024_001">
+                        </div>
+                        <div class="config-group">
+                            <label>Analysis Type</label>
+                            <select id="sceneAnalysisType">
+                                <option value="comprehensive">Comprehensive Analysis</option>
+                                <option value="scene_graph_only">Scene Graph Only</option>
+                                <option value="event_detection_only">Event Detection Only</option>
+                                <option value="forensic_grade">Forensic Grade (Full Chain of Custody)</option>
+                            </select>
+                        </div>
+                        <div class="config-group">
+                            <label>Confidence Threshold</label>
+                            <input type="range" id="sceneConfidenceThreshold" min="0.1" max="1.0" step="0.1" value="0.6">
+                            <span class="range-value">0.6</span>
+                        </div>
+                        <div class="config-group">
+                            <label>Temporal Window (frames)</label>
+                            <input type="number" id="temporalWindow" min="5" max="100" value="30">
+                        </div>
+                        <div class="config-group">
+                            <label>Spatial Proximity Threshold (pixels)</label>
+                            <input type="number" id="spatialThreshold" min="10" max="500" value="100">
+                        </div>
+                    </div>
+
+                    <div class="config-options">
+                        <h5>Analysis Options</h5>
+                        <label class="checkbox-option">
+                            <input type="checkbox" id="enableSceneGraphs" checked>
+                            <span class="checkbox-custom"></span>
+                            Generate Scene Graphs
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" id="enableEventDetection" checked>
+                            <span class="checkbox-custom"></span>
+                            Enable Event Detection
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" id="enableChainOfCustody" checked>
+                            <span class="checkbox-custom"></span>
+                            Maintain Chain of Custody
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" id="generateVisualizations" checked>
+                            <span class="checkbox-custom"></span>
+                            Generate Visualizations
+                        </label>
+                    </div>
+
+                    <div class="step-actions">
+                        <button class="btn-secondary" onclick="prevSceneAnalysisStep()">Back</button>
+                        <button class="btn-primary" onclick="startSceneAnalysis()">Start Analysis</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Processing -->
+                <div class="step-content" id="sceneAnalysisStep3" style="display: none;">
+                    <h4>Processing Scene Analysis</h4>
+                    <p>Analyzing scene data and detecting events...</p>
+
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="sceneAnalysisProgress"></div>
+                        </div>
+                        <div class="progress-text">
+                            <span id="sceneAnalysisProgressText">0%</span>
+                            <span id="sceneAnalysisStatus">Initializing...</span>
+                        </div>
+                    </div>
+
+                    <div class="processing-stats">
+                        <div class="stat-card">
+                            <div class="stat-number" id="processedFrames">0</div>
+                            <div class="stat-label">Frames Processed</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="detectedEvents">0</div>
+                            <div class="stat-label">Events Detected</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="evidenceItems">0</div>
+                            <div class="stat-label">Evidence Items</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="sceneGraphs">0</div>
+                            <div class="stat-label">Scene Graphs</div>
+                        </div>
+                    </div>
+
+                    <div class="processing-logs">
+                        <h5>Processing Logs</h5>
+                        <div class="log-container" id="sceneAnalysisLogs">
+                            <div class="log-entry">
+                                <span class="log-time">00:00:00</span>
+                                <span class="log-message">Scene analysis initialized</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-actions">
+                        <button class="btn-secondary" id="cancelSceneAnalysisBtn" onclick="cancelSceneAnalysis()">Cancel Analysis</button>
+                    </div>
+                </div>
+
+                <!-- Step 4: Results -->
+                <div class="step-content" id="sceneAnalysisStep4" style="display: none;">
+                    <h4>Analysis Results</h4>
+                    <p>Scene analysis completed successfully!</p>
+
+                    <div class="results-summary">
+                        <div class="summary-card">
+                            <div class="summary-icon"><i class="fas fa-project-diagram"></i></div>
+                            <div class="summary-content">
+                                <h5>Scene Graphs Generated</h5>
+                                <div class="summary-value" id="resultSceneGraphs">-</div>
+                            </div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                            <div class="summary-content">
+                                <h5>Events Detected</h5>
+                                <div class="summary-value" id="resultEvents">-</div>
+                            </div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-icon"><i class="fas fa-shield-alt"></i></div>
+                            <div class="summary-content">
+                                <h5>Evidence Items</h5>
+                                <div class="summary-value" id="resultEvidence">-</div>
+                            </div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-icon"><i class="fas fa-star"></i></div>
+                            <div class="summary-content">
+                                <h5>Quality Score</h5>
+                                <div class="summary-value" id="resultQuality">-</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="results-details">
+                        <h5>Critical Events</h5>
+                        <div class="events-list" id="criticalEventsList">
+                            <!-- Events will be populated here -->
+                        </div>
+                    </div>
+
+                    <div class="results-actions">
+                        <h5>Export Options</h5>
+                        <div class="export-buttons">
+                            <button class="btn-outline" onclick="downloadSceneAnalysisReport()">
+                                <i class="fas fa-file-pdf"></i> Download Report
+                            </button>
+                            <button class="btn-outline" onclick="downloadSceneGraph()">
+                                <i class="fas fa-project-diagram"></i> Scene Graph
+                            </button>
+                            <button class="btn-outline" onclick="downloadEventTimeline()">
+                                <i class="fas fa-chart-line"></i> Event Timeline
+                            </button>
+                            <button class="btn-outline" onclick="viewDetailedResults()">
+                                <i class="fas fa-eye"></i> View Details
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="step-actions">
+                        <button class="btn-secondary" onclick="closeSceneAnalysisModal()">Close</button>
+                        <button class="btn-primary" onclick="startNewSceneAnalysis()">New Analysis</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3D Scene Viewer -->
+    <div id="scene3DViewer" class="scene-3d-viewer" style="display: none;">
+        <div class="viewer-header">
+            <h2><i class="fas fa-cube"></i> 3D Scene Visualization</h2>
+            <div class="viewer-controls">
+                <button id="resetCamera" class="btn-sm"><i class="fas fa-home"></i></button>
+                <button id="topView" class="btn-sm">Top</button>
+                <button id="sideView" class="btn-sm">Side</button>
+                <button id="frontView" class="btn-sm">Front</button>
+                <button onclick="close3DViewer()" class="btn-close">&times;</button>
+            </div>
+        </div>
+        
+        <div class="viewer-content">
+            <!-- 3D Canvas Container -->
+            <div id="scene3DCanvas" class="viewer-canvas">
+                <div id="viewer3DLoading" class="viewer-loading">
+                    <div class="loading-spinner"></div>
+                    <span>Loading 3D Scene...</span>
+                </div>
+                <div id="viewer3DError" class="viewer-error" style="display: none;"></div>
+            </div>
+            
+            <!-- Control Panels -->
+            <div class="viewer-panels">
+                <!-- Timeline Controls -->
+                <div class="timeline-panel">
+                    <h4><i class="fas fa-clock"></i> Timeline</h4>
+                    <div class="timeline-controls">
+                        <button id="playButton" class="btn-primary">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <input type="range" id="timelineSlider" min="0" max="60" value="0" step="0.1" class="timeline-slider">
+                        <div class="time-display">
+                            <span id="currentTimeDisplay">0.0s</span> / <span id="durationDisplay">60.0s</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Layer Controls -->
+                <div class="layers-panel">
+                    <h4><i class="fas fa-layer-group"></i> Layers</h4>
+                    <div class="layer-toggles">
+                        <label class="layer-toggle-item">
+                            <input type="checkbox" class="layer-toggle" data-layer="objects" checked>
+                            <span>Objects</span>
+                        </label>
+                        <label class="layer-toggle-item">
+                            <input type="checkbox" class="layer-toggle" data-layer="trajectories" checked>
+                            <span>Trajectories</span>
+                        </label>
+                        <label class="layer-toggle-item">
+                            <input type="checkbox" class="layer-toggle" data-layer="events" checked>
+                            <span>Events</span>
+                        </label>
+                        <label class="layer-toggle-item">
+                            <input type="checkbox" class="layer-toggle" data-layer="reconstruction" checked>
+                            <span>3D Reconstruction</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Scene Information -->
+                <div class="info-panel">
+                    <h4><i class="fas fa-info-circle"></i> Scene Info</h4>
+                    <div id="sceneInfo" class="scene-info">
+                        <!-- Scene information will be populated here -->
+                    </div>
+                </div>
+                
+                <!-- Objects List -->
+                <div class="objects-panel">
+                    <h4><i class="fas fa-list"></i> Objects</h4>
+                    <div id="objectsList" class="objects-list">
+                        <!-- Objects list will be populated here -->
+                    </div>
+                </div>
+                
+                <!-- Object Details -->
+                <div id="objectDetails" class="details-panel" style="display: none;">
+                    <h4><i class="fas fa-search"></i> Object Details</h4>
+                    <div class="details-content">
+                        <!-- Object details will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r17/Stats.min.js"></script>
+    <script src="{% static 'js/three-viewer.js' %}"></script>
+    <script src="{% static 'js/scene-viewer-integration.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/scenes.js' %}"></script>
+    <script src="{% static 'js/physics.js' %}"></script>
+    <!-- Forensic Q&A Modal -->
+    <div id="forensicQAModal" class="modal">
+        <div class="modal-content forensic-qa-modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-comments"></i> Forensic Q&A System</h2>
+                <span class="close" onclick="closeForensicQAModal()">&times;</span>
+            </div>
+            
+            <div class="qa-container">
+                <!-- Case Selection and Intelligence Controls -->
+                <div class="qa-case-selection">
+                    <div class="case-filter">
+                        <label for="qaCaseSelect">Case Filter:</label>
+                        <select id="qaCaseSelect">
+                            <option value="">All Cases</option>
+                            <option value="CASE_2024_001">CASE_2024_001</option>
+                            <option value="CASE_2024_002">CASE_2024_002</option>
+                        </select>
+                    </div>
+                    
+                    <div class="intelligence-controls">
+                        <label for="reasoningMode">Reasoning Depth:</label>
+                        <select id="reasoningMode">
+                            <option value="minimal">Minimal</option>
+                            <option value="standard" selected>Standard</option>
+                            <option value="deep">Deep Analysis</option>
+                        </select>
+                        
+                        <button class="btn-secondary" onclick="loadIntelligentSuggestions()">
+                            <i class="fas fa-brain"></i> AI Suggestions
+                        </button>
+                        
+                        <button class="btn-info" onclick="showAgentCapabilities()">
+                            <i class="fas fa-info-circle"></i> Capabilities
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Agent Capabilities -->
+                <div class="agent-capabilities" id="agentCapabilities" style="display: none;">
+                    <!-- Capabilities will be loaded here -->
+                </div>
+                
+                <!-- Processing Status -->
+                <div class="processing-status" id="processingStatus" style="display: none;">
+                    <!-- Processing updates will be shown here -->
+                </div>
+                
+                <!-- Query Suggestions -->
+                <div class="qa-suggestions" id="qaSuggestions" style="display: none;">
+                    <h4>🤖 Intelligent Query Suggestions:</h4>
+                    <div class="suggestions-grid" id="suggestionsGrid">
+                        <!-- Suggestions will be loaded here -->
+                    </div>
+                </div>
+                
+                <!-- Query Input -->
+                <div class="qa-input-section">
+                    <div class="query-input-container">
+                        <textarea id="queryInput" placeholder="Ask a forensic question... (e.g., 'What events occurred between 10 and 20 seconds?', 'Show me high confidence evidence', 'Find all person-vehicle interactions')"></textarea>
+                        <button class="btn-primary" onclick="submitQuery()">
+                            <i class="fas fa-search"></i> Ask
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Query History -->
+                <div class="qa-history" id="qaHistory" style="display: none;">
+                    <h4>Recent Queries:</h4>
+                    <div class="history-list" id="historyList">
+                        <!-- History will be loaded here -->
+                    </div>
+                </div>
+                
+                <!-- Response Area -->
+                <div class="qa-response-area" id="qaResponseArea" style="display: none;">
+                    <div class="response-header">
+                        <h4>Analysis Results</h4>
+                        <div class="response-meta">
+                            <span class="confidence-badge" id="confidenceBadge">Confidence: --</span>
+                            <span class="processing-time" id="processingTime">Time: --</span>
+                        </div>
+                    </div>
+                    
+                    <div class="response-content" id="responseContent">
+                        <!-- Response will be displayed here -->
+                    </div>
+                    
+                    <div class="response-sources" id="responseSources" style="display: none;">
+                        <h5>Sources:</h5>
+                        <div class="sources-list" id="sourcesList">
+                            <!-- Sources will be listed here -->
+                        </div>
+                    </div>
+                    
+                    <div class="response-actions">
+                        <button class="btn-secondary" onclick="exportResponse()">
+                            <i class="fas fa-download"></i> Export
+                        </button>
+                        <button class="btn-secondary" onclick="clearResponse()">
+                            <i class="fas fa-trash"></i> Clear
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Loading Indicator -->
+                <div class="qa-loading" id="qaLoading" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <p>Processing your forensic query...</p>
+                </div>
+                
+                <!-- System Stats -->
+                <div class="qa-stats" id="qaStats">
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-label">Indexed Documents:</span>
+                            <span class="stat-value" id="indexedDocs">--</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Your Queries:</span>
+                            <span class="stat-value" id="userQueries">--</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Avg Confidence:</span>
+                            <span class="stat-value" id="avgConfidence">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/scene-analysis.js' %}"></script>
+    <script src="{% static 'js/forensic-qa.js' %}"></script>
+</body>
+</html>

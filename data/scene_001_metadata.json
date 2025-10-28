@@ -1,0 +1,26 @@
+{
+  "scene_id": "scene_001",
+  "processed_on": "Mac",
+  "cameras": {
+    "cam_001": {
+      "video_file": "data/raw/scene_001/cam_001.mp4",
+      "video_size_mb": 65.82,
+      "metadata": {
+        "fps": 30.0,
+        "frame_count": 8240,
+        "width": 320,
+        "height": 240,
+        "duration": 274.6666666666667
+      },
+      "keyframes_dir": "data/keyframes/scene_001/cam_001",
+      "keyframe_count": 275,
+      "processing_success": true
+    }
+  },
+  "processing_stats": {
+    "total_cameras": 1,
+    "successful_cameras": 1,
+    "total_keyframes": 275,
+    "keyframe_fps": 1.0
+  }
+}

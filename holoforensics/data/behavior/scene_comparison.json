@@ -1,0 +1,22 @@
+{
+  "scenes": {
+    "scene_001": {
+      "total_persons": 5,
+      "movement_distribution": {
+        "stationary": 2,
+        "walking": 2,
+        "fast_walking": 1
+      },
+      "cameras": 1
+    }
+  },
+  "cross_scene_analysis": {
+    "total_scenes": 1,
+    "overall_movement_distribution": {
+      "stationary": 2,
+      "walking": 2,
+      "fast_walking": 1
+    },
+    "most_common_behavior": "stationary"
+  }
+}

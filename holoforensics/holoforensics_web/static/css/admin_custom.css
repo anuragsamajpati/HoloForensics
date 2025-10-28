@@ -1,0 +1,430 @@
+/* HoloForensics Admin Custom Styles */
+:root {
+    --holo-primary: #ff4757;
+    --holo-dark: #1a1a1a;
+    --holo-darker: #0f0f0f;
+    --holo-gray: #2d2d2d;
+    --holo-light-gray: #404040;
+    --holo-text: #ffffff;
+    --holo-text-secondary: #b0b0b0;
+}
+
+/* Override Django admin colors */
+body {
+    font-family: 'Inter', sans-serif !important;
+    background: var(--holo-dark) !important;
+    color: var(--holo-text) !important;
+}
+
+/* Header styling */
+#header {
+    background: var(--holo-darker) !important;
+    border-bottom: 2px solid var(--holo-primary) !important;
+    padding: 15px 20px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+.holo-admin-branding h1 {
+    margin: 0 !important;
+    font-size: 24px !important;
+    font-weight: 600 !important;
+}
+
+.holo-admin-branding h1 a {
+    color: var(--holo-text) !important;
+    text-decoration: none !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.holo-admin-branding h1 a i {
+    color: var(--holo-primary) !important;
+    font-size: 28px !important;
+}
+
+.holo-admin-branding h1 a:hover {
+    color: var(--holo-primary) !important;
+}
+
+/* User navigation in header */
+#user-tools {
+    display: flex !important;
+    align-items: center !important;
+    gap: 20px !important;
+}
+
+#user-tools a {
+    color: var(--holo-text) !important;
+    text-decoration: none !important;
+    font-size: 14px !important;
+    padding: 8px 12px !important;
+    border-radius: 4px !important;
+    transition: all 0.3s ease !important;
+}
+
+#user-tools a:hover {
+    background: var(--holo-primary) !important;
+    color: white !important;
+}
+
+#user-tools strong {
+    color: var(--holo-text-secondary) !important;
+    font-size: 14px !important;
+    font-weight: normal !important;
+}
+
+/* Main content area */
+#content {
+    background: var(--holo-dark) !important;
+    color: var(--holo-text) !important;
+}
+
+/* Dashboard styling */
+.dashboard #content {
+    width: auto !important;
+}
+
+.dashboard .module {
+    background: var(--holo-gray) !important;
+    border: 1px solid var(--holo-light-gray) !important;
+    border-radius: 8px !important;
+    margin-bottom: 20px !important;
+}
+
+.dashboard .module h2 {
+    background: var(--holo-primary) !important;
+    color: white !important;
+    margin: 0 !important;
+    padding: 15px 20px !important;
+    border-radius: 8px 8px 0 0 !important;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+}
+
+.dashboard .module h3 {
+    color: var(--holo-text) !important;
+    margin: 0 !important;
+    padding: 15px 20px !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+}
+
+.dashboard .module table {
+    background: transparent !important;
+}
+
+.dashboard .module th,
+.dashboard .module td {
+    background: transparent !important;
+    color: var(--holo-text) !important;
+    border-bottom: 1px solid var(--holo-light-gray) !important;
+    padding: 12px 20px !important;
+}
+
+.dashboard .module th {
+    background: var(--holo-light-gray) !important;
+    font-weight: 600 !important;
+}
+
+.dashboard .module a {
+    color: var(--holo-primary) !important;
+    text-decoration: none !important;
+}
+
+.dashboard .module a:hover {
+    color: #ff6b7a !important;
+    text-decoration: underline !important;
+}
+
+/* Welcome message */
+.dashboard #content h1 {
+    color: var(--holo-text) !important;
+    font-size: 28px !important;
+    font-weight: 600 !important;
+    margin-bottom: 30px !important;
+}
+
+/* Custom welcome card */
+.holo-welcome-card {
+    background: linear-gradient(135deg, var(--holo-gray), var(--holo-light-gray)) !important;
+    border: 1px solid var(--holo-primary) !important;
+    border-radius: 12px !important;
+    padding: 30px !important;
+    margin-bottom: 30px !important;
+    text-align: center !important;
+}
+
+.holo-welcome-card h2 {
+    color: var(--holo-primary) !important;
+    font-size: 24px !important;
+    font-weight: 600 !important;
+    margin-bottom: 10px !important;
+}
+
+.holo-welcome-card p {
+    color: var(--holo-text-secondary) !important;
+    font-size: 16px !important;
+    margin: 0 !important;
+}
+
+/* Authentication section styling */
+.dashboard .module.auth {
+    background: linear-gradient(135deg, #2d1b1b, #3d2424) !important;
+    border: 1px solid var(--holo-primary) !important;
+}
+
+.dashboard .module.auth h2 {
+    background: var(--holo-primary) !important;
+}
+
+/* Breadcrumbs */
+.breadcrumbs {
+    background: var(--holo-gray) !important;
+    color: var(--holo-text-secondary) !important;
+    border: none !important;
+    padding: 15px 20px !important;
+}
+
+.breadcrumbs a {
+    color: var(--holo-primary) !important;
+}
+
+/* Forms */
+.form-row {
+    background: transparent !important;
+}
+
+.form-row label {
+    color: var(--holo-text) !important;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+textarea,
+select {
+    background: var(--holo-gray) !important;
+    border: 1px solid var(--holo-light-gray) !important;
+    color: var(--holo-text) !important;
+    border-radius: 4px !important;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--holo-primary) !important;
+    box-shadow: 0 0 0 2px rgba(255, 71, 87, 0.2) !important;
+}
+
+/* Buttons */
+.button,
+input[type="submit"],
+input[type="button"],
+.submit-row input {
+    background: var(--holo-primary) !important;
+    border: none !important;
+    color: white !important;
+    padding: 10px 20px !important;
+    border-radius: 4px !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+}
+
+.button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover {
+    background: #ff6b7a !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Tables */
+.results {
+    background: var(--holo-gray) !important;
+    border: 1px solid var(--holo-light-gray) !important;
+    border-radius: 8px !important;
+}
+
+.results th {
+    background: var(--holo-light-gray) !important;
+    color: var(--holo-text) !important;
+    border-bottom: 2px solid var(--holo-primary) !important;
+}
+
+.results td {
+    background: transparent !important;
+    color: var(--holo-text) !important;
+    border-bottom: 1px solid var(--holo-light-gray) !important;
+}
+
+.results tr:hover td {
+    background: var(--holo-light-gray) !important;
+}
+
+/* Sidebar */
+#nav-sidebar {
+    background: var(--holo-darker) !important;
+    border-right: 2px solid var(--holo-primary) !important;
+    width: 280px !important;
+    position: fixed !important;
+    top: 80px !important;
+    left: 0 !important;
+    height: calc(100vh - 80px) !important;
+    overflow-y: auto !important;
+    z-index: 100 !important;
+}
+
+.app-list {
+    padding: 20px 0 !important;
+}
+
+.app-item {
+    margin-bottom: 20px !important;
+}
+
+.app-header {
+    background: var(--holo-primary) !important;
+    color: white !important;
+    padding: 12px 20px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.5px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.app-header i {
+    font-size: 14px !important;
+}
+
+.app-models {
+    background: var(--holo-gray) !important;
+}
+
+.model-link {
+    display: flex !important;
+    align-items: center !important;
+    padding: 12px 20px !important;
+    color: var(--holo-text) !important;
+    text-decoration: none !important;
+    border-bottom: 1px solid var(--holo-light-gray) !important;
+    transition: all 0.3s ease !important;
+    gap: 10px !important;
+}
+
+.model-link:hover {
+    background: var(--holo-light-gray) !important;
+    color: var(--holo-primary) !important;
+}
+
+.model-link i {
+    font-size: 14px !important;
+    width: 16px !important;
+}
+
+.actions {
+    margin-left: auto !important;
+}
+
+.add-link {
+    background: var(--holo-primary) !important;
+    color: white !important;
+    width: 20px !important;
+    height: 20px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 12px !important;
+    font-weight: bold !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+}
+
+.add-link:hover {
+    background: #ff6b7a !important;
+    transform: scale(1.1) !important;
+}
+
+/* Main content adjustment */
+#content {
+    margin-left: 0 !important;
+    padding: 20px !important;
+}
+
+/* Breadcrumbs adjustment */
+.breadcrumbs {
+    margin-left: 0 !important;
+    padding: 15px 20px !important;
+}
+
+/* Success message styling */
+.success-message {
+    background: #2ecc71 !important;
+    color: white !important;
+    padding: 12px 20px !important;
+    border-radius: 4px !important;
+    margin: 20px 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.success-message i {
+    font-size: 16px !important;
+}
+
+/* Messages */
+.messagelist {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.messagelist li {
+    background: var(--holo-primary) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 4px !important;
+    margin-bottom: 10px !important;
+    padding: 15px 20px !important;
+}
+
+.messagelist li.success {
+    background: #2ecc71 !important;
+}
+
+.messagelist li.warning {
+    background: #f39c12 !important;
+}
+
+.messagelist li.error {
+    background: #e74c3c !important;
+}
+
+/* Footer */
+#footer {
+    background: var(--holo-darker) !important;
+    color: var(--holo-text-secondary) !important;
+    border-top: 1px solid var(--holo-light-gray) !important;
+    padding: 20px !important;
+    text-align: center !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .holo-admin-nav {
+        float: none !important;
+        margin-top: 15px !important;
+    }
+    
+    .nav-links {
+        flex-direction: column !important;
+        gap: 10px !important;
+    }
+}

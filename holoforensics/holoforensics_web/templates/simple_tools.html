@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Tools - HoloForensics</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            color: #ff4757;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .tool-card {
+            background: #2d3436;
+            border: 2px solid #636e72;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .tool-card:hover {
+            border-color: #ff4757;
+            transform: translateY(-5px);
+        }
+        .tool-icon {
+            font-size: 3em;
+            color: #ff4757;
+            margin-bottom: 20px;
+        }
+        .tool-title {
+            font-size: 1.5em;
+            color: #ff4757;
+            margin-bottom: 15px;
+        }
+        .tool-description {
+            color: #b2bec3;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+        .tool-button {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .tool-button:hover {
+            background: #e84118;
+        }
+        .status-panel {
+            background: #00b894;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .status-panel h2 {
+            margin: 0 0 10px 0;
+            color: white;
+        }
+        .nav-links {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .nav-links a {
+            color: #74b9ff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1.1em;
+        }
+        .nav-links a:hover {
+            color: #0984e3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-links">
+            <a href="/">← Home</a>
+            <a href="/analysis/">Dashboard</a>
+            <a href="/scenes/">Scenes</a>
+        </div>
+
+        <div class="header">
+            <h1>🔬 HoloForensics Analysis Tools</h1>
+            <p>Direct access to forensic analysis capabilities</p>
+        </div>
+
+        <div class="status-panel">
+            <h2>✅ All Tools Working</h2>
+            <p>Simple HTML interface - no JavaScript required</p>
+        </div>
+
+        <div class="tools-grid">
+            <!-- Video Inpainting Tool -->
+            <div class="tool-card">
+                <div class="tool-icon">🎬</div>
+                <div class="tool-title">Video Inpainting</div>
+                <div class="tool-description">
+                    Remove unwanted objects from video footage using advanced AI inpainting techniques.
+                </div>
+                <a href="/scenes/?tool=video-inpainting" class="tool-button">Launch Tool</a>
+            </div>
+
+            <!-- Physics Prediction Tool -->
+            <div class="tool-card">
+                <div class="tool-icon">🚀</div>
+                <div class="tool-title">Physics Prediction</div>
+                <div class="tool-description">
+                    Predict object trajectories using physics-informed models and Kalman filtering.
+                </div>
+                <a href="/scenes/?tool=physics-prediction" class="tool-button">Launch Tool</a>
+            </div>
+
+            <!-- Scene Analysis Tool -->
+            <div class="tool-card">
+                <div class="tool-icon">🔍</div>
+                <div class="tool-title">Scene Analysis</div>
+                <div class="tool-description">
+                    Comprehensive scene graph generation and event detection analysis.
+                </div>
+                <a href="/scenes/?tool=scene-analysis" class="tool-button">Launch Tool</a>
+            </div>
+
+            <!-- Forensic Q&A Tool -->
+            <div class="tool-card">
+                <div class="tool-icon">❓</div>
+                <div class="tool-title">Forensic Q&A</div>
+                <div class="tool-description">
+                    Ask natural language questions about forensic evidence and get intelligent answers.
+                </div>
+                <a href="/scenes/?tool=forensic-qa" class="tool-button">Launch Tool</a>
+            </div>
+
+            <!-- 3D Reconstruction Tool -->
+            <div class="tool-card">
+                <div class="tool-icon">🏗️</div>
+                <div class="tool-title">3D Reconstruction</div>
+                <div class="tool-description">
+                    Generate 3D scene reconstructions from multi-camera footage.
+                </div>
+                <a href="/scenes/?tool=3d-reconstruction" class="tool-button">Launch Tool</a>
+            </div>
+
+            <!-- Timeline Analysis Tool -->
+            <div class="tool-card">
+                <div class="tool-icon">📊</div>
+                <div class="tool-title">Timeline Analysis</div>
+                <div class="tool-description">
+                    Create detailed forensic timelines and behavioral pattern analysis.
+                </div>
+                <a href="/scenes/?tool=timeline-analysis" class="tool-button">Launch Tool</a>
+            </div>
+        </div>
+
+        <div style="text-align: center; color: #636e72; margin-top: 40px;">
+            <p>HoloForensics v2.0 - Advanced Forensic Video Analysis System</p>
+        </div>
+    </div>
+</body>
+</html>

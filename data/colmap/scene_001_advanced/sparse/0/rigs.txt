@@ -1,0 +1,8 @@
+# Rig calib list with one line of data per calib:
+#   RIG_ID, NUM_SENSORS, REF_SENSOR_TYPE, REF_SENSOR_ID, SENSORS[] as (SENSOR_TYPE, SENSOR_ID, HAS_POSE, [QW, QX, QY, QZ, TX, TY, TZ])
+# Number of rigs: 5
+10 1 CAMERA 10
+19 1 CAMERA 19
+20 1 CAMERA 20
+79 1 CAMERA 79
+80 1 CAMERA 80

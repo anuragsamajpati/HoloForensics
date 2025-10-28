@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv/
+.env*/
+*.egg-info/
+.eggs/
+
+# macOS
+.DS_Store
+
+# VSCode/IDE
+.vscode/
+.idea/
+*.iml
+
+# Django
+*.log
+staticfiles/
+media/
+*.sqlite3
+
+# Node/JS
+node_modules/
+
+# Virtualenv
+holoforensics_env/
+
+# Data and outputs
+Analysed Data/
+results/
+results*/
+*.pt
+*.pth
+*.onnx
+
+# Docker
+*.pid
+
+# Cache
+.cache/
+.dist/
+
+# Local config overrides
+*.local
+*.override.*

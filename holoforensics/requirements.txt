@@ -1,0 +1,13 @@
+django==4.2
+djangorestframework
+django-cors-headers
+channels
+channels-redis
+celery
+redis
+opencv-python
+torch
+torchvision
+numpy
+scikit-image
+Pillow

@@ -1,0 +1,8 @@
+{
+  "scene_id": "scene_001",
+  "reconstruction_type": "synthetic_multi_camera",
+  "status": "success",
+  "cameras": 5,
+  "registered_images": 10,
+  "3d_points": 656
+}

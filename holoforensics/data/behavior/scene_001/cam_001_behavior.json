@@ -1,0 +1,142 @@
+{
+  "scene_id": "scene_001",
+  "camera_id": "cam_001",
+  "analysis_type": "behavioral_patterns",
+  "total_tracks_analyzed": 5,
+  "behavioral_profiles": {
+    "1": {
+      "movement_classification": {
+        "type": "stationary",
+        "confidence": 0.15728611480204469,
+        "avg_speed": 0.004213569425989777,
+        "speed_variance": 3.828542110766845e-06
+      },
+      "temporal_patterns": {
+        "total_duration": 4,
+        "active_frames": 5,
+        "activity_periods": [
+          {
+            "start": 0,
+            "end": 4
+          }
+        ],
+        "avg_period_length": 5.0
+      },
+      "consistency_metrics": {
+        "consistency_score": 0.5356274283135021,
+        "stability": "moderate",
+        "coefficient_of_variation": 0.4643725716864979
+      },
+      "summary": "Person exhibits stationary behavior (confidence: 0.16) with moderate movement patterns over 4 frames. Active in 1 periods, average 5.0 frames per period."
+    },
+    "2": {
+      "movement_classification": {
+        "type": "walking",
+        "confidence": 0.8,
+        "avg_speed": 0.012194792884603864,
+        "speed_variance": 3.3968639999879065e-05
+      },
+      "temporal_patterns": {
+        "total_duration": 4,
+        "active_frames": 5,
+        "activity_periods": [
+          {
+            "start": 0,
+            "end": 4
+          }
+        ],
+        "avg_period_length": 5.0
+      },
+      "consistency_metrics": {
+        "consistency_score": 0.5220696052970506,
+        "stability": "moderate",
+        "coefficient_of_variation": 0.47793039470294935
+      },
+      "summary": "Person exhibits walking behavior (confidence: 0.80) with moderate movement patterns over 4 frames. Active in 1 periods, average 5.0 frames per period."
+    },
+    "3": {
+      "movement_classification": {
+        "type": "walking",
+        "confidence": 0.8,
+        "avg_speed": 0.0055117162567540935,
+        "speed_variance": 1.172768844268796e-06
+      },
+      "temporal_patterns": {
+        "total_duration": 4,
+        "active_frames": 5,
+        "activity_periods": [
+          {
+            "start": 0,
+            "end": 4
+          }
+        ],
+        "avg_period_length": 5.0
+      },
+      "consistency_metrics": {
+        "consistency_score": 0.803519543718886,
+        "stability": "very_stable",
+        "coefficient_of_variation": 0.196480456281114
+      },
+      "summary": "Person exhibits walking behavior (confidence: 0.80) with very_stable movement patterns over 4 frames. Active in 1 periods, average 5.0 frames per period."
+    },
+    "4": {
+      "movement_classification": {
+        "type": "stationary",
+        "confidence": 1.0,
+        "avg_speed": 0.0,
+        "speed_variance": 0.0
+      },
+      "temporal_patterns": {
+        "total_duration": 3,
+        "active_frames": 4,
+        "activity_periods": [
+          {
+            "start": 1,
+            "end": 4
+          }
+        ],
+        "avg_period_length": 4.0
+      },
+      "consistency_metrics": {
+        "consistency_score": 1.0,
+        "stability": "very_stable",
+        "coefficient_of_variation": Infinity
+      },
+      "summary": "Person exhibits stationary behavior (confidence: 1.00) with very_stable movement patterns over 3 frames. Active in 1 periods, average 4.0 frames per period."
+    },
+    "5": {
+      "movement_classification": {
+        "type": "fast_walking",
+        "confidence": 0.7,
+        "avg_speed": 0.030240113273873936,
+        "speed_variance": 0.0013936591024240148
+      },
+      "temporal_patterns": {
+        "total_duration": 3,
+        "active_frames": 4,
+        "activity_periods": [
+          {
+            "start": 1,
+            "end": 4
+          }
+        ],
+        "avg_period_length": 4.0
+      },
+      "consistency_metrics": {
+        "consistency_score": 0,
+        "stability": "erratic",
+        "coefficient_of_variation": 1.2345107162575497
+      },
+      "summary": "Person exhibits fast_walking behavior (confidence: 0.70) with erratic movement patterns over 3 frames. Active in 1 periods, average 4.0 frames per period."
+    }
+  },
+  "scene_summary": {
+    "total_persons": 5,
+    "movement_distribution": {
+      "stationary": 2,
+      "walking": 2,
+      "fast_walking": 1
+    },
+    "dominant_behavior": "stationary"
+  }
+}

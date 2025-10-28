@@ -1,0 +1,230 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HoloForensics - Advanced 3D Forensic Analysis</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-cube"></i>
+                HoloForensics
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#home" class="nav-link active">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#services" class="nav-link">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" class="nav-link">Contact</a>
+                </li>
+            </ul>
+            {% if user.is_authenticated %}
+                <div class="nav-auth">
+                    <a href="/scenes/" class="get-started-btn">Get Started</a>
+                    <a href="/logout/" class="logout-btn">Logout</a>
+                </div>
+            {% else %}
+                <a href="/login/" class="get-started-btn">Login</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                We <span class="highlight">Analyze</span>, We <span class="highlight">Reconstruct</span>,<br>
+                We Are <span class="highlight">HoloForensics</span>
+            </h1>
+            <p class="hero-subtitle">
+                Advanced 3D forensic analysis system powered by multi-camera reconstruction, AI-driven object detection, and intelligent investigation tools for modern crime scene analysis.
+            </p>
+            <div class="hero-buttons">
+                <a href="/scenes/" class="btn-primary">Start Analysis</a>
+                <button class="btn-secondary">Learn More</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-subtitle">WHAT WE CAN DO FOR YOU</p>
+                <h2 class="section-title">Forensic capabilities we provide</h2>
+                <p class="section-description">
+                    Cutting-edge technology meets forensic science to deliver unprecedented analysis capabilities for modern investigations.
+                </p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3>Multi-Camera Analysis</h3>
+                    <p>Process multiple camera angles simultaneously to create comprehensive 3D reconstructions of crime scenes with millimeter precision.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>AI Object Detection</h3>
+                    <p>Advanced YOLO-based detection and tracking of persons, objects, and evidence with real-time processing and high accuracy rates.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <h3>3D Reconstruction</h3>
+                    <p>COLMAP-powered 3D scene reconstruction enabling immersive investigation and precise spatial measurements.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <h3>Smart Q&A System</h3>
+                    <p>AI-powered investigation assistant that answers complex questions about timeline, behavior, and evidence relationships.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Timeline Analysis</h3>
+                    <p>Detailed temporal analysis of events with frame-by-frame tracking and behavioral pattern recognition.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <h3>Identity Tracking</h3>
+                    <p>Re-identification technology to track individuals across multiple camera views and time periods.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-header">
+                <p class="section-subtitle">OUR IMPACT</p>
+                <h2 class="section-title">Forensic Analysis Growth</h2>
+                <p class="stats-description">
+                    Leading the advancement of digital forensic technology with proven results.
+                </p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" data-target="500">0</div>
+                    <div class="stat-suffix">+</div>
+                    <div class="stat-label">Cases Analyzed</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number" data-target="99.8">0</div>
+                    <div class="stat-suffix">%</div>
+                    <div class="stat-label">Detection Accuracy</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-suffix"></div>
+                    <div class="stat-label">Processing Available</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number" data-target="15">0</div>
+                    <div class="stat-suffix">+</div>
+                    <div class="stat-label">Analysis Features</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="final-cta">
+        <div class="cta-content">
+            <h2>Ready to revolutionize your investigations?</h2>
+            <p>Join the future of forensic analysis with our advanced 3D reconstruction and AI-powered tools.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-cube"></i>
+                        <span>HoloForensics</span>
+                    </div>
+                    <p class="footer-description">
+                        Advanced 3D forensic analysis system for modern crime scene investigation. Powered by AI and computer vision technology.
+                    </p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#scenes">Scenes</a></li>
+                        <li><a href="#dashboard">Dashboard</a></li>
+                        <li><a href="#admin">Admin Panel</a></li>
+                        <li><a href="#api">API Documentation</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="#help">Help Center</a></li>
+                        <li><a href="#docs">Documentation</a></li>
+                        <li><a href="#support">Contact Support</a></li>
+                        <li><a href="#training">Training</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <div class="contact-info">
+                        <p><i class="fas fa-envelope"></i> support@holoforensics.com</p>
+                        <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                        <p><i class="fas fa-map-marker-alt"></i> Forensic Technology Center</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 HoloForensics. All rights reserved. | Advanced Forensic Analysis Technology</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{% static 'js/main.js' %}"></script>
+    <!-- Force browser refresh -->
+    <script>
+        // Add timestamp to force cache refresh
+        if (performance.navigation.type === performance.navigation.TYPE_RELOAD) {
+            console.log('Page refreshed');
+        }
+    </script>
+</body>
+</html>

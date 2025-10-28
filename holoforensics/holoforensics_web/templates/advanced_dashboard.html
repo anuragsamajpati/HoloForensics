@@ -1,0 +1,340 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Analytics Dashboard - HoloForensics</title>
+    <link rel="stylesheet" href="{% static 'css/scenes.css' %}">
+    <link rel="stylesheet" href="{% static 'css/advanced_dashboard.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-cube"></i>
+                <span>HoloForensics</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="/" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/scenes/" class="nav-link">Scenes</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/analysis/" class="nav-link">Analysis</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/" class="nav-link">Admin</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" class="nav-link">Contact</a>
+                </li>
+            </ul>
+            {% if user.is_authenticated %}
+                <div class="nav-auth">
+                    <span class="user-info">Welcome, {{ user.username }}</span>
+                    <a href="/logout/" class="logout-btn">Logout</a>
+                </div>
+            {% else %}
+                <a href="/login/" class="get-started-btn">Login</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Main Dashboard Container -->
+    <div class="dashboard-container">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <div class="header-content">
+                <h1><i class="fas fa-chart-line"></i> Advanced Analytics Dashboard</h1>
+                <p>Real-time forensic analysis insights and case management</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn-primary" onclick="refreshDashboard()">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+                <button class="btn-secondary" onclick="exportReport()">
+                    <i class="fas fa-download"></i> Export
+                </button>
+            </div>
+        </div>
+
+        <!-- Key Metrics Cards -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-icon">
+                    <i class="fas fa-folder-open"></i>
+                </div>
+                <div class="metric-content">
+                    <h3>Active Cases</h3>
+                    <div class="metric-value" id="activeCases">12</div>
+                    <div class="metric-change positive">
+                        <i class="fas fa-arrow-up"></i> +3 this week
+                    </div>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-icon">
+                    <i class="fas fa-eye"></i>
+                </div>
+                <div class="metric-content">
+                    <h3>Objects Detected</h3>
+                    <div class="metric-value" id="objectsDetected">1,247</div>
+                    <div class="metric-change positive">
+                        <i class="fas fa-arrow-up"></i> +156 today
+                    </div>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-icon">
+                    <i class="fas fa-route"></i>
+                </div>
+                <div class="metric-content">
+                    <h3>Trajectories Analyzed</h3>
+                    <div class="metric-value" id="trajectoriesAnalyzed">89</div>
+                    <div class="metric-change positive">
+                        <i class="fas fa-arrow-up"></i> +12 today
+                    </div>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="metric-content">
+                    <h3>Anomalies Found</h3>
+                    <div class="metric-value" id="anomaliesFound">23</div>
+                    <div class="metric-change negative">
+                        <i class="fas fa-arrow-down"></i> -2 today
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts and Analytics -->
+        <div class="analytics-grid">
+            <!-- Case Activity Timeline -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3><i class="fas fa-chart-area"></i> Case Activity Timeline</h3>
+                    <div class="chart-controls">
+                        <select id="timelineRange">
+                            <option value="7">Last 7 days</option>
+                            <option value="30" selected>Last 30 days</option>
+                            <option value="90">Last 90 days</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="activityChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Detection Accuracy -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3><i class="fas fa-bullseye"></i> Detection Accuracy</h3>
+                    <div class="accuracy-score">
+                        <span class="score-value">94.2%</span>
+                        <span class="score-label">Average Confidence</span>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="accuracyChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Object Distribution -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3><i class="fas fa-chart-pie"></i> Object Type Distribution</h3>
+                </div>
+                <div class="chart-container">
+                    <canvas id="distributionChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Processing Performance -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3><i class="fas fa-tachometer-alt"></i> Processing Performance</h3>
+                    <div class="performance-indicator">
+                        <div class="indicator-item">
+                            <span class="indicator-label">CPU</span>
+                            <div class="indicator-bar">
+                                <div class="indicator-fill" style="width: 65%"></div>
+                            </div>
+                            <span class="indicator-value">65%</span>
+                        </div>
+                        <div class="indicator-item">
+                            <span class="indicator-label">GPU</span>
+                            <div class="indicator-bar">
+                                <div class="indicator-fill" style="width: 78%"></div>
+                            </div>
+                            <span class="indicator-value">78%</span>
+                        </div>
+                        <div class="indicator-item">
+                            <span class="indicator-label">Memory</span>
+                            <div class="indicator-bar">
+                                <div class="indicator-fill" style="width: 42%"></div>
+                            </div>
+                            <span class="indicator-value">42%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Cases Table -->
+        <div class="table-card">
+            <div class="table-header">
+                <h3><i class="fas fa-list"></i> Recent Cases</h3>
+                <div class="table-actions">
+                    <button class="btn-sm" onclick="filterCases('all')">All</button>
+                    <button class="btn-sm" onclick="filterCases('active')">Active</button>
+                    <button class="btn-sm" onclick="filterCases('completed')">Completed</button>
+                </div>
+            </div>
+            <div class="table-container">
+                <table class="cases-table">
+                    <thead>
+                        <tr>
+                            <th>Case ID</th>
+                            <th>Title</th>
+                            <th>Status</th>
+                            <th>Objects</th>
+                            <th>Confidence</th>
+                            <th>Last Updated</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="casesTableBody">
+                        <tr>
+                            <td>CASE_2024_001</td>
+                            <td>Indoor Incident Analysis</td>
+                            <td><span class="status-badge completed">Completed</span></td>
+                            <td>47</td>
+                            <td>94.2%</td>
+                            <td>2 hours ago</td>
+                            <td>
+                                <button class="action-btn" onclick="viewCase('CASE_2024_001')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="action-btn" onclick="open3DViewer('CASE_2024_001')">
+                                    <i class="fas fa-cube"></i>
+                                </button>
+                                <button class="action-btn" onclick="exportCase('CASE_2024_001')">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>CASE_2024_002</td>
+                            <td>Outdoor Investigation</td>
+                            <td><span class="status-badge processing">Processing</span></td>
+                            <td>23</td>
+                            <td>87.6%</td>
+                            <td>1 hour ago</td>
+                            <td>
+                                <button class="action-btn" onclick="viewCase('CASE_2024_002')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="action-btn" disabled>
+                                    <i class="fas fa-cube"></i>
+                                </button>
+                                <button class="action-btn" disabled>
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>CASE_2024_003</td>
+                            <td>Evidence Timeline Analysis</td>
+                            <td><span class="status-badge ready">Ready</span></td>
+                            <td>156</td>
+                            <td>91.8%</td>
+                            <td>30 minutes ago</td>
+                            <td>
+                                <button class="action-btn" onclick="viewCase('CASE_2024_003')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="action-btn" onclick="open3DViewer('CASE_2024_003')">
+                                    <i class="fas fa-cube"></i>
+                                </button>
+                                <button class="action-btn" onclick="exportCase('CASE_2024_003')">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- AI Insights Panel -->
+        <div class="insights-panel">
+            <div class="insights-header">
+                <h3><i class="fas fa-brain"></i> AI Insights & Recommendations</h3>
+            </div>
+            <div class="insights-content">
+                <div class="insight-item high-priority">
+                    <div class="insight-icon">
+                        <i class="fas fa-exclamation-circle"></i>
+                    </div>
+                    <div class="insight-content">
+                        <h4>Anomalous Behavior Detected</h4>
+                        <p>Case CASE_2024_001 shows unusual trajectory patterns in sector B-3. Recommend manual review.</p>
+                        <div class="insight-actions">
+                            <button class="btn-sm" onclick="reviewAnomaly('CASE_2024_001', 'B-3')">Review</button>
+                            <button class="btn-sm btn-outline" onclick="dismissInsight(1)">Dismiss</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-item medium-priority">
+                    <div class="insight-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="insight-content">
+                        <h4>Processing Optimization Available</h4>
+                        <p>GPU utilization is below optimal. Consider increasing batch size for 15% performance improvement.</p>
+                        <div class="insight-actions">
+                            <button class="btn-sm" onclick="optimizeProcessing()">Optimize</button>
+                            <button class="btn-sm btn-outline" onclick="dismissInsight(2)">Later</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-item low-priority">
+                    <div class="insight-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="insight-content">
+                        <h4>Detection Accuracy Trend</h4>
+                        <p>Overall detection accuracy has improved by 3.2% over the past week. Model training is effective.</p>
+                        <div class="insight-actions">
+                            <button class="btn-sm btn-outline" onclick="viewTrends()">View Details</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{% static 'js/advanced_dashboard.js' %}"></script>
+    <script src="{% static 'js/dashboard_charts.js' %}"></script>
+</body>
+</html>

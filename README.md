@@ -35,6 +35,15 @@ Python, PyTorch, TensorFlow, OpenCV, COLMAP, YOLOv8, NeRF / 3DGS, E2FGVI, FAISS,
 
 - Local development URL: http://127.0.0.1:8000/
 
+## Admin Login
+
+Use the following credentials for the built-in admin account (local dev):
+
+- Username: `admin`
+- Password: `admin@12345`
+
+Once logged in, you can change the password from the Django Admin panel.
+
 ## Repository Notes
 
 - Large binary artifacts (videos, models, zips) are tracked via **Git LFS**.
